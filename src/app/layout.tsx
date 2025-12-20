@@ -2,19 +2,29 @@ import type React from "react"
 import type { Metadata } from "next"
 
 import { Analytics } from "@vercel/analytics/next"
+import { Instrument_Sans, Instrument_Serif } from "next/font/google"
 import "./globals.css"
-import { Geist, Geist_Mono, Geist as V0_Font_Geist, Geist_Mono as V0_Font_Geist_Mono, Source_Serif_4 as V0_Font_Source_Serif_4 } from 'next/font/google'
 
-// Initialize fonts
-const _geist = V0_Font_Geist({ subsets: ['latin'], weight: ["100","200","300","400","500","600","700","800","900"] })
-const _geistMono = V0_Font_Geist_Mono({ subsets: ['latin'], weight: ["100","200","300","400","500","600","700","800","900"] })
-const _sourceSerif_4 = V0_Font_Source_Serif_4({ subsets: ['latin'], weight: ["200","300","400","500","600","700","800","900"] })
+// Primary font - clean, modern sans-serif
+const instrumentSans = Instrument_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sans",
+  display: "swap",
+})
+
+// Accent font - elegant serif for headings
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-serif",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "ZK Vote | Private Voting with Zero-Knowledge Proofs",
   description:
     "Verifiable, anonymous elections using zero-knowledge cryptography. Your vote counts, but no one knows how you voted.",
-  generator: "v0.app",
   icons: {
     icon: [
       {
@@ -40,8 +50,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased`}>
+    <html lang="en" className="dark">
+      <body
+        className={`${instrumentSans.variable} ${instrumentSerif.variable} font-sans antialiased`}
+      >
         {children}
         <Analytics />
       </body>

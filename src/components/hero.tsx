@@ -1,51 +1,89 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { ArrowRight, Shield } from "lucide-react"
+import Silk from "./Silk"
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-indigo-950/50 via-slate-950 to-slate-950" />
-
-      {/* Geometric pattern overlay */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-20 left-10 w-72 h-72 border border-indigo-500/30 rounded-full" />
-        <div className="absolute top-40 right-20 w-96 h-96 border border-indigo-400/20 rounded-full" />
-        <div className="absolute bottom-20 left-1/4 w-64 h-64 border border-indigo-600/25 rounded-full" />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0f]">
+      {/* Silk background - full coverage */}
+      <div className="absolute inset-0 z-0">
+        <Silk
+          speed={3}
+          scale={1.2}
+          color="#6366f1"
+          noiseIntensity={1.2}
+          rotation={0.2}
+        />
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-        <Badge variant="outline" className="mb-6 border-indigo-500/50 text-indigo-300 bg-indigo-500/10">
-          <Shield className="w-3 h-3 mr-1" />
-          Powered by Zero-Knowledge Proofs
-        </Badge>
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-[#0a0a0f]/50 via-transparent to-[#0a0a0f]/70 pointer-events-none" />
 
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 text-balance">
+      {/* Main content */}
+      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+        {/* Badge */}
+        <div className="opacity-0 animate-fade-in-down inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass mb-10">
+          <div className="flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-br from-violet-500/20 to-indigo-500/20">
+            <Shield className="w-3.5 h-3.5 text-violet-400" />
+          </div>
+          <span className="text-sm text-white/90 tracking-wide">Powered by Zero-Knowledge Proofs</span>
+        </div>
+
+        {/* Main heading */}
+        <h1 className="opacity-0 animate-fade-in-up delay-100 text-5xl md:text-7xl lg:text-[5.5rem] font-semibold tracking-[-0.02em] leading-[1.1] mb-8">
           <span className="text-white">Private Voting.</span>
           <br />
-          <span className="text-indigo-400">Public Trust.</span>
+          <span className="text-white">Public Trust.</span>
         </h1>
 
-        <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 text-pretty">
-          ZK Vote enables verifiable, anonymous elections using zero-knowledge cryptography. Your vote counts, but no
-          one knows how you voted.
+        {/* Subtitle */}
+        <p className="opacity-0 animate-fade-in-up delay-200 text-lg md:text-xl text-white/80 max-w-xl mx-auto mb-14 leading-relaxed font-light">
+          Verifiable, anonymous elections using zero-knowledge cryptography.
+          <span className="text-white"> Your vote counts, but no one knows how you voted.</span>
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button size="lg" className="bg-indigo-600 hover:bg-indigo-700 text-white">
-            Launch App
-            <ArrowRight className="ml-2 w-4 h-4" />
+        {/* CTA Buttons */}
+        <div className="opacity-0 animate-fade-in-up delay-300 flex flex-col sm:flex-row gap-4 justify-center">
+          <Button
+            variant="ghost"
+            className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md border border-neutral-200 !bg-white px-6 font-medium !text-neutral-800 transition-all duration-100 [box-shadow:5px_5px_rgb(82_82_82)] active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_rgb(82_82_82)]"
+          >
+            <span className="flex items-center gap-2">
+              Launch App
+              <ArrowRight className="w-4 h-4" />
+            </span>
           </Button>
           <Button
-            size="lg"
-            variant="outline"
-            className="border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white bg-transparent"
+            variant="ghost"
+            className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md border border-neutral-200 !bg-white px-6 font-medium !text-neutral-800 transition-all duration-100 [box-shadow:5px_5px_rgb(82_82_82)] active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_rgb(82_82_82)]"
           >
             Read Documentation
           </Button>
         </div>
+
+        {/* Trust indicators */}
+        <div className="opacity-0 animate-fade-in delay-500 mt-20 flex items-center justify-center gap-10 text-white/70 text-sm">
+          <div className="flex items-center gap-2.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/60" />
+            <span className="tracking-wide">Audited</span>
+          </div>
+          <div className="w-px h-4 bg-white/10" />
+          <div className="flex items-center gap-2.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/60" />
+            <span className="tracking-wide">Open Source</span>
+          </div>
+          <div className="w-px h-4 bg-white/10" />
+          <div className="flex items-center gap-2.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-violet-400/60" />
+            <span className="tracking-wide">On-chain</span>
+          </div>
+        </div>
       </div>
+
+      {/* Bottom fade to next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 z-[3] bg-gradient-to-t from-[#0a0a0f] to-transparent pointer-events-none" />
     </section>
   )
 }
