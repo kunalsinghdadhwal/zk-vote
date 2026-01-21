@@ -33,14 +33,14 @@ export function WhyZK() {
       <div className="max-w-5xl mx-auto relative">
         {/* Section header */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs text-slate-400 uppercase tracking-[0.15em] mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs text-slate-400 uppercase mb-8">
             Technology
           </div>
-          <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6 tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6 text-balance">
             The Power of{" "}
-            <span className="gradient-text">Zero-Knowledge</span>
+            <span className="text-violet-400">Zero-Knowledge</span>
           </h2>
-          <p className="text-slate-400 max-w-xl mx-auto text-lg font-light leading-relaxed">
+          <p className="text-slate-400 max-w-xl mx-auto text-lg font-light leading-relaxed text-pretty">
             Zero-knowledge proofs solve the fundamental tension between privacy and transparency in voting.
           </p>
         </div>
@@ -50,18 +50,18 @@ export function WhyZK() {
           {benefits.map((benefit) => (
             <div
               key={benefit.title}
-              className="group text-center p-8 rounded-2xl glass glass-hover transition-all duration-500"
+              className="group text-center p-8 rounded-2xl glass glass-hover transition-all duration-200"
             >
               {/* Icon container */}
               <div className="relative inline-flex mb-8">
-                <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-white/[0.04] to-white/[0.02] border border-white/[0.06] flex items-center justify-center transition-all duration-500 group-hover:border-white/[0.1] group-hover:from-white/[0.06]">
-                  <benefit.icon className={`w-7 h-7 ${accentColors[benefit.accent]} transition-all duration-500`} />
+                <div className="relative size-16 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center transition-all duration-200 group-hover:border-white/[0.1] group-hover:bg-white/[0.05]">
+                  <benefit.icon className={`size-7 ${accentColors[benefit.accent]} transition-all duration-200`} />
                 </div>
               </div>
 
               {/* Content */}
-              <h3 className="text-xl font-medium text-white mb-4 tracking-tight">{benefit.title}</h3>
-              <p className="text-slate-400 leading-relaxed font-light text-sm">{benefit.description}</p>
+              <h3 className="text-xl font-medium text-white mb-4">{benefit.title}</h3>
+              <p className="text-slate-400 leading-relaxed font-light text-sm text-pretty">{benefit.description}</p>
             </div>
           ))}
         </div>
@@ -70,7 +70,7 @@ export function WhyZK() {
         <div className="mt-20 flex justify-center">
           <div className="inline-flex items-center gap-4 md:gap-6 px-6 md:px-8 py-4 rounded-2xl glass">
             <div className="flex items-center gap-2">
-              <div className="w-2.5 h-2.5 rounded-full bg-violet-400/60" />
+              <div className="size-2.5 rounded-full bg-violet-400/60" />
               <span className="text-sm text-slate-400 font-light">Vote</span>
             </div>
             <div className="text-slate-600 text-xs">
@@ -79,7 +79,7 @@ export function WhyZK() {
               </svg>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-2.5 h-2.5 rounded-full bg-indigo-400/60" />
+              <div className="size-2.5 rounded-full bg-indigo-400/60" />
               <span className="text-sm text-slate-400 font-light">ZK Proof</span>
             </div>
             <div className="text-slate-600 text-xs">
@@ -88,7 +88,7 @@ export function WhyZK() {
               </svg>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/60" />
+              <div className="size-2.5 rounded-full bg-emerald-400/60" />
               <span className="text-sm text-slate-400 font-light">Verified</span>
             </div>
           </div>

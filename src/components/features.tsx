@@ -78,13 +78,13 @@ export function Features() {
       <div className="max-w-6xl mx-auto relative">
         {/* Section header */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs text-slate-400 uppercase tracking-[0.15em] mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs text-slate-400 uppercase mb-8">
             Features
           </div>
-          <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6 tracking-tight">
-            Why <span className="gradient-text">ZK Vote</span>?
+          <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6 text-balance">
+            Why <span className="text-violet-400">ZK Vote</span>?
           </h2>
-          <p className="text-slate-400 max-w-xl mx-auto text-lg font-light leading-relaxed">
+          <p className="text-slate-400 max-w-xl mx-auto text-lg font-light leading-relaxed text-pretty">
             Built on cutting-edge zero-knowledge technology to ensure every vote is private, verifiable, and secure.
           </p>
         </div>
@@ -96,16 +96,16 @@ export function Features() {
             return (
               <div
                 key={feature.title}
-                className={`group relative p-7 rounded-2xl glass glass-hover transition-all duration-500 ${colors.glow} ${colors.border} hover:shadow-lg`}
+                className={`group relative p-7 rounded-2xl glass glass-hover transition-all duration-200 ${colors.glow} ${colors.border} hover:shadow-lg`}
               >
                 {/* Icon */}
-                <div className="relative w-11 h-11 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-6 transition-all duration-500 group-hover:bg-white/[0.05] group-hover:border-white/[0.1]">
-                  <feature.icon className={`w-5 h-5 ${colors.icon} transition-all duration-500`} />
+                <div className="relative size-11 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-6 transition-all duration-200 group-hover:bg-white/[0.05] group-hover:border-white/[0.1]">
+                  <feature.icon className={`size-5 ${colors.icon} transition-all duration-200`} />
                 </div>
 
                 {/* Content */}
-                <h3 className="text-lg font-medium text-white mb-3 tracking-tight">{feature.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed font-light">{feature.description}</p>
+                <h3 className="text-lg font-medium text-white mb-3">{feature.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed font-light text-pretty">{feature.description}</p>
               </div>
             )
           })}
