@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { LineShadowText } from "@/components/ui/line-shadow-text"
 import { ArrowRight, Shield } from "lucide-react"
 import Silk from "./Silk"
 
