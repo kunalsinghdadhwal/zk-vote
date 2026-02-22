@@ -164,7 +164,7 @@ const features = [
 export function Features() {
   return (
     <section className="py-20 px-6 relative">
-      <div className="max-w-6xl mx-auto relative">
+      <div className="max-w-4xl mx-auto relative">
         {/* Section header */}
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-semibold text-zinc-900 mb-5 text-balance">
@@ -175,7 +175,7 @@ export function Features() {
           </p>
         </div>
 
-        <BentoGrid className="auto-rows-[18rem] lg:grid-cols-3">
+        <BentoGrid className="auto-rows-[12rem] lg:grid-cols-3">
           {features.map((feature) => (
             <BentoCard key={feature.name} {...feature} />
           ))}
