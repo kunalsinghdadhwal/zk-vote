@@ -163,10 +163,10 @@ const features = [
 
 export function Features() {
   return (
-    <section className="py-20 px-6 relative">
+    <section className="py-12 px-6 relative">
       <div className="max-w-4xl mx-auto relative">
         {/* Section header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <h2 className="text-4xl md:text-5xl font-semibold text-zinc-900 mb-5 text-balance">
             Why <span className="font-serif italic text-violet-600">ZK Vote</span>?
           </h2>

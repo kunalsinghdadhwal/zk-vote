@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react"
 
 export function CTASection() {
   return (
-    <section className="py-20 px-6 relative overflow-hidden">
+    <section className="py-12 px-6 relative overflow-hidden">
       <div className="max-w-2xl mx-auto relative">
         <div className="relative rounded-3xl border border-zinc-200/80 bg-white p-10 md:p-14 text-center overflow-hidden shadow-sm">
           {/* Heading */}

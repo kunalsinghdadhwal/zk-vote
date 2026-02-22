@@ -29,10 +29,10 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="py-20 px-6 relative">
+    <section id="how-it-works" className="py-12 px-6 relative">
       <div className="max-w-3xl mx-auto relative">
         {/* Section header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10">
           <h2 className="text-4xl md:text-5xl font-semibold text-zinc-900 mb-5 text-balance">
             How It <span className="font-serif italic text-violet-600">Works</span>
           </h2>

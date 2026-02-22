@@ -2,9 +2,8 @@
 
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { LineShadowText } from "@/components/ui/line-shadow-text"
-import { ArrowRight, Shield } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import Silk from "./Silk"
 
 export function Hero() {
@@ -29,16 +28,6 @@ export function Hero() {
 
       {/* Main content */}
       <div className="relative z-20 max-w-4xl mx-auto px-6 text-center">
-        {/* Badge */}
-        <div className="opacity-0 animate-fade-in-down">
-          <Badge variant="outline" className="!rounded-full !bg-white/70 !border-zinc-200 !text-zinc-600 !h-auto px-4 py-2 gap-2.5 backdrop-blur-sm mb-10">
-            <div className="flex items-center justify-center size-5 rounded-full bg-violet-100">
-              <Shield className="size-3 text-violet-600" />
-            </div>
-            Powered by Zero-Knowledge Proofs
-          </Badge>
-        </div>
-
         {/* Main heading */}
         <h1 className="opacity-0 animate-fade-in-up delay-100 text-5xl md:text-7xl lg:text-[5.5rem] font-semibold leading-[1.05] mb-8 text-balance">
           <span className="text-zinc-900">Private</span>{' '}
@@ -67,23 +56,6 @@ export function Hero() {
           </Button>
         </div>
 
-        {/* Trust indicators */}
-        <div className="opacity-0 animate-fade-in delay-500 mt-20 inline-flex items-center justify-center gap-6 text-xs font-medium tracking-wide uppercase px-5 py-2.5 rounded-full bg-white/60 backdrop-blur-sm text-zinc-600">
-          <div className="flex items-center gap-2">
-            <div className="size-1.5 rounded-full bg-emerald-500" />
-            <span>Audited</span>
-          </div>
-          <div className="w-px h-3 bg-zinc-300" />
-          <div className="flex items-center gap-2">
-            <div className="size-1.5 rounded-full bg-emerald-500" />
-            <span>Open Source</span>
-          </div>
-          <div className="w-px h-3 bg-zinc-300" />
-          <div className="flex items-center gap-2">
-            <div className="size-1.5 rounded-full bg-violet-500" />
-            <span>On-chain</span>
-          </div>
-        </div>
       </div>
 
       {/* Bottom fade */}
