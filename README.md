@@ -1,35 +1,49 @@
 # ZK Vote
 
-Private, verifiable elections using zero-knowledge cryptography. Your vote counts, but no one knows how you voted.
+Private, verifiable elections using zero-knowledge cryptography and Self Protocol identity verification.
 
 ## Overview
 
-ZK Vote is a decentralized voting platform that leverages zero-knowledge proofs to solve the fundamental tension between privacy and transparency in elections. Votes are cryptographically hidden while remaining publicly verifiable, ensuring both individual privacy and election integrity.
+ZK Vote is a voting platform that combines zero-knowledge proofs with Aadhaar-based identity verification via the Self Protocol. Users must verify their Aadhaar identity before accessing the voting interface, ensuring one-person-one-vote while preserving voter privacy.
 
-## Features
+## Architecture
 
-- **Zero-Knowledge Privacy** - Votes are cryptographically hidden while still being verifiable by anyone
-- **Full Transparency** - All vote tallies are publicly auditable without revealing individual choices
-- **Mathematically Verified** - Every vote is proven valid through cryptographic proofs, eliminating fraud
-- **Instant Results** - Results are available immediately after voting ends with full verification
-- **Tamper-Proof** - Once cast, votes cannot be altered, deleted, or manipulated
-- **Decentralized** - No single entity controls the system; trust is distributed across the network
+```
+Landing Page (/) --> Verify Identity (/vote) --> Cast Vote --> Confirmation
+                         |                          |
+                    Self SDK QR Code           ZK Proof Generated
+                    (Aadhaar verification)    (vote privacy)
+                         |
+                    Backend Verifier
+                    (/api/verify)
+```
 
-## How It Works
+### Flow
 
-1. **Connect Wallet** - Link your Web3 wallet to verify identity without revealing personal information
-2. **Cast Your Vote** - Select your choice; your vote is encrypted locally before submission
-3. **Generate ZK Proof** - A zero-knowledge proof verifies your vote is valid without revealing your choice
-4. **Verify & Confirm** - Your vote is recorded on-chain; anyone can verify the tally without seeing individual votes
+1. User visits the landing page and clicks "Launch App"
+2. Redirected to `/vote` where they must complete identity verification
+3. Self SDK displays a QR code -- user scans with the Self mobile app (Aadhaar verification)
+4. Proof is sent to `/api/verify` backend endpoint for verification
+5. On success, the voting interface is unlocked
+6. User selects a proposal and casts their vote
+7. Vote is confirmed with a ZK proof
+
+### Key Directories
+
+- `/src/app` -- Next.js App Router pages and API routes
+- `/src/app/api/verify` -- Self SDK backend verifier endpoint
+- `/src/app/vote` -- Voting page with verification gate
+- `/src/components` -- React components (hero, features, verification, etc.)
+- `/src/components/ui` -- Primitive UI components
 
 ## Tech Stack
 
-- [Next.js 16](https://nextjs.org/) - React framework with App Router
-- [React 19](https://react.dev/) - UI library
-- [TypeScript 5](https://www.typescriptlang.org/) - Type safety
-- [Tailwind CSS 4](https://tailwindcss.com/) - Styling
-- [Radix UI](https://www.radix-ui.com/) - Accessible UI primitives
-- [Three.js](https://threejs.org/) - 3D graphics for visual effects
+- [Next.js 16](https://nextjs.org/) -- App Router, React Server Components
+- [React 19](https://react.dev/) -- UI framework
+- [TypeScript 5](https://www.typescriptlang.org/) -- Type safety
+- [Tailwind CSS 4](https://tailwindcss.com/) -- Styling
+- [Self Protocol SDK](https://docs.self.xyz/) -- Identity verification via QR/ZK proofs
+- [ethers.js](https://docs.ethers.org/) -- Ethereum utilities
 
 ## Getting Started
 
@@ -41,16 +55,49 @@ ZK Vote is a decentralized voting platform that leverages zero-knowledge proofs 
 ### Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/your-username/zk-vote.git
 cd zk-vote
-
-# Install dependencies
 pnpm install
+```
 
-# Start the development server
+### Environment Variables
+
+Create a `.env.local` file in the project root:
+
+```env
+NEXT_PUBLIC_SELF_ENDPOINT=https://your-ngrok-url.ngrok.io/api/verify
+```
+
+For local development, the Self SDK requires a publicly accessible endpoint. Use [ngrok](https://ngrok.com/) to tunnel your local server:
+
+```bash
+ngrok http 3000
+```
+
+Then set `NEXT_PUBLIC_SELF_ENDPOINT` to the ngrok HTTPS URL followed by `/api/verify`.
+
+### Development
+
+```bash
 pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the application.
 
+### Build
+
+```bash
+pnpm build
+pnpm start
+```
+
+## Self SDK Integration
+
+The app uses the Self Protocol for privacy-preserving identity verification:
+
+- **Frontend**: `@selfxyz/qrcode` renders a QR code that users scan with the Self mobile app
+- **Backend**: `@selfxyz/core` provides `SelfBackendVerifier` to validate proofs server-side
+- **Accepted Documents**: Aadhaar only (configured via `ATTESTATION_ID.AADHAAR`)
+- **Verification Config**: Minimum age 18, using staging mode for development
+
+The frontend and backend configurations (scope, disclosures) must match exactly for verification to succeed.

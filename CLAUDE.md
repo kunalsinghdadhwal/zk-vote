@@ -53,10 +53,13 @@ The Field component (`/components/ui/field.tsx`) handles complex form layouts wi
 - Accessible fieldset/legend semantics
 - Client component (`'use client'`)
 
+## > [!IMPORTANT]
+- Use /frontend-design skill for fronted always
+- only change the minimum amount required to implement the most effective solution
+
 ## Technologies
 
 - **UI**: @radix-ui primitives (24+ components), @base-ui/react, lucide-react icons
 - **Forms**: react-hook-form + zod validation
 - **Styling**: tailwind-merge, clsx, tw-animate-css
-- **Analytics**: @vercel/analytics
 - **Fonts**: Geist, Geist Mono, Source Serif 4 (via next/font)
