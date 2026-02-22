@@ -18,7 +18,7 @@ type FooterSection = {
 
 function KIcon() {
   return (
-    <span className="inline-flex items-center justify-center size-4 text-sm font-bold leading-none">
+    <span className="inline-flex items-center justify-center size-4 text-base font-bold leading-none">
       K
     </span>
   )
@@ -47,7 +47,7 @@ const footerLinks: FooterSection[] = [
         icon: <TwitterIcon />,
       },
       {
-        title: "Made by Kunal",
+        title: "Craftsman",
         href: "https://kxnl.in",
         icon: <KIcon />,
       },

@@ -44,7 +44,7 @@ export function Hero() {
         </p>
 
         {/* CTA Buttons */}
-        <div className="opacity-0 animate-fade-in-up delay-300 flex flex-col sm:flex-row gap-3 justify-center">
+        <div className="opacity-0 animate-fade-in-up delay-300 flex flex-row gap-3 justify-center">
           <Link href="/vote">
             <Button variant="default" size="lg">
               Launch App
@@ -52,7 +52,8 @@ export function Hero() {
             </Button>
           </Link>
           <Button variant="outline" size="lg">
-            Read Documentation
+            <span className="sm:hidden">Documentation</span>
+            <span className="hidden sm:inline">Read Documentation</span>
           </Button>
         </div>
 

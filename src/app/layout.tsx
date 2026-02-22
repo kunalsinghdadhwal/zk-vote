@@ -21,10 +21,32 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 })
 
+const siteUrl = "https://zk-vote.vercel.app"
+
 export const metadata: Metadata = {
   title: "ZK Vote | Private Voting with Zero-Knowledge Proofs",
   description:
     "Verifiable, anonymous elections using zero-knowledge cryptography. Your vote counts, but no one knows how you voted.",
+  metadataBase: new URL(siteUrl),
+  openGraph: {
+    title: "ZK Vote",
+    description: "Private, verifiable voting powered by zero-knowledge proofs.",
+    url: siteUrl,
+    siteName: "ZK Vote",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ZK Vote",
+    description: "Private, verifiable voting powered by zero-knowledge proofs.",
+    creator: "@0xkun4l",
+  },
+  authors: [
+    { name: "Kunal", url: "https://kxnl.in" },
+  ],
+  creator: "Kunal",
+  keywords: ["zero-knowledge", "voting", "privacy", "zk-proofs", "aadhaar", "blockchain"],
   icons: {
     icon: [
       {
