@@ -42,10 +42,10 @@ export function Hero() {
         {/* Main heading */}
         <h1 className="opacity-0 animate-fade-in-up delay-100 text-5xl md:text-7xl lg:text-[5.5rem] font-semibold leading-[1.05] mb-8 text-balance">
           <span className="text-zinc-900">Private</span>{' '}
-          <span className="font-serif italic text-white">Voting.</span>
+          <LineShadowText shadowColor="rgba(255,255,255,0.5)" className="font-serif italic text-white">Voting.</LineShadowText>
           <br />
           <span className="text-zinc-900">Public</span>{' '}
-          <span className="font-serif italic text-zinc-400">Trust.</span>
+          <LineShadowText shadowColor="rgba(255,255,255,0.5)" className="font-serif italic text-white">Trust.</LineShadowText>
         </h1>
 
         {/* Subtitle */}
