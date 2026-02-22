@@ -1,5 +1,4 @@
 import { ScanLine, Vote, FileCheck, CheckCircle } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
 
 const steps = [
   {
@@ -68,9 +67,6 @@ export function HowItWorks() {
       <div className="max-w-5xl mx-auto relative">
         {/* Section header */}
         <div className="text-center mb-14">
-          <Badge variant="outline" className="!rounded-full !bg-zinc-100 !border-zinc-200 !text-zinc-500 !h-auto px-4 py-1.5 mb-8 uppercase text-xs tracking-wider">
-            Process
-          </Badge>
           <h2 className="text-4xl md:text-5xl font-semibold text-zinc-900 mb-5 text-balance">
             How It <span className="font-serif italic text-violet-600">Works</span>
           </h2>

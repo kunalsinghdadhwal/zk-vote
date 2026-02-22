@@ -1,46 +1,42 @@
-import { Lock, Eye, Scale, ArrowRight } from "lucide-react"
+import { Lock, Eye, Scale } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 
-const benefits = [
+const pillars = [
   {
+    num: "01",
     icon: Lock,
     title: "Privacy",
-    description: "Your vote is your secret. ZK proofs ensure no one can link your identity to your choice.",
-    accent: "violet",
-    colors: {
-      iconBg: "bg-violet-50",
-      iconBorder: "border-violet-100",
-      icon: "text-violet-600",
-      bar: "bg-violet-500",
-      hover: "group-hover:border-violet-200",
-    },
+    subtitle: "Your secret, mathematically guaranteed",
+    description: "ZK proofs ensure no one can link your identity to your choice. Your vote remains yours alone.",
+    color: "text-violet-600",
+    dot: "bg-violet-500",
+    line: "from-violet-400/60",
+    numColor: "text-violet-200",
+    align: "md:mr-auto" as const,
   },
   {
+    num: "02",
     icon: Eye,
     title: "Transparency",
+    subtitle: "Verifiable by anyone, anywhere",
     description: "Anyone can verify the election results are accurate without compromising voter privacy.",
-    accent: "blue",
-    colors: {
-      iconBg: "bg-blue-50",
-      iconBorder: "border-blue-100",
-      icon: "text-blue-600",
-      bar: "bg-blue-500",
-      hover: "group-hover:border-blue-200",
-    },
+    color: "text-blue-600",
+    dot: "bg-blue-500",
+    line: "from-blue-400/60",
+    numColor: "text-blue-200",
+    align: "md:ml-auto" as const,
   },
   {
+    num: "03",
     icon: Scale,
     title: "Fairness",
-    description: "Cryptographic guarantees prevent vote manipulation, coercion, and double voting.",
-    accent: "emerald",
-    colors: {
-      iconBg: "bg-emerald-50",
-      iconBorder: "border-emerald-100",
-      icon: "text-emerald-600",
-      bar: "bg-emerald-500",
-      hover: "group-hover:border-emerald-200",
-    },
+    subtitle: "Cryptographic certainty",
+    description: "Mathematical guarantees prevent vote manipulation, coercion, and double voting.",
+    color: "text-emerald-600",
+    dot: "bg-emerald-500",
+    line: "from-emerald-400/60",
+    numColor: "text-emerald-200",
+    align: "md:mx-auto" as const,
   },
 ]
 
@@ -49,7 +45,7 @@ export function WhyZK() {
     <section className="py-20 px-6 relative overflow-hidden">
       <div className="max-w-5xl mx-auto relative">
         {/* Section header */}
-        <div className="text-center mb-14">
+        <div className="text-center mb-16">
           <Badge variant="outline" className="!rounded-full !bg-zinc-100 !border-zinc-200 !text-zinc-500 !h-auto px-4 py-1.5 mb-8 uppercase text-xs tracking-wider">
             Technology
           </Badge>
@@ -62,52 +58,73 @@ export function WhyZK() {
           </p>
         </div>
 
-        {/* Benefits - horizontal cards with left accent bar */}
-        <div className="space-y-3">
-          {benefits.map((benefit) => (
-            <div
-              key={benefit.title}
-              className={`group relative flex items-start gap-6 rounded-2xl border border-zinc-200/80 bg-white p-7 md:p-8 transition-all duration-300 hover:shadow-lg hover:shadow-zinc-200/50 ${benefit.colors.hover} overflow-hidden`}
-            >
-              {/* Left accent bar */}
-              <div className={`absolute left-0 top-4 bottom-4 w-[3px] rounded-full ${benefit.colors.bar} opacity-60 group-hover:opacity-100 transition-opacity duration-300`} />
+        {/* Staggered editorial blocks */}
+        <div className="relative">
+          {/* Vertical connector -- desktop only */}
+          <div className="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-zinc-200 via-zinc-200 to-transparent" />
 
-              {/* Icon */}
-              <div className={`flex-shrink-0 size-14 rounded-xl ${benefit.colors.iconBg} ${benefit.colors.iconBorder} border flex items-center justify-center transition-all duration-300`}>
-                <benefit.icon className={`size-6 ${benefit.colors.icon}`} />
-              </div>
+          <div className="space-y-8 md:space-y-0">
+            {pillars.map((pillar, i) => (
+              <div
+                key={pillar.num}
+                className={`group relative md:w-[55%] ${pillar.align}`}
+                style={{ marginTop: i > 0 ? '-1rem' : undefined }}
+              >
+                {/* Connector dot on the vertical line -- desktop */}
+                <div className={`hidden md:block absolute top-10 ${
+                  i === 0 ? '-right-[calc(50%/55*45+6px)]' : i === 1 ? '-left-[calc(50%/55*45+6px)]' : 'left-1/2 -translate-x-1/2 -top-4'
+                }`}>
+                  <div className={`size-3 rounded-full ${pillar.dot} ring-4 ring-stone-50`} />
+                </div>
 
-              {/* Content */}
-              <div className="flex-1 min-w-0">
-                <h3 className="text-xl font-semibold text-zinc-800 mb-2">{benefit.title}</h3>
-                <p className="text-zinc-500 leading-relaxed font-normal text-[15px] text-pretty">{benefit.description}</p>
-              </div>
+                {/* Card */}
+                <div className="relative rounded-2xl border border-zinc-200/80 bg-white p-8 md:p-10 transition-all duration-300 hover:shadow-xl hover:shadow-zinc-200/40 hover:border-zinc-300/80 overflow-hidden">
+                  {/* Large decorative number */}
+                  <span className={`absolute top-4 right-6 text-[5.5rem] md:text-[7rem] font-serif italic leading-none ${pillar.numColor} select-none pointer-events-none transition-all duration-500 group-hover:scale-[1.03]`}>
+                    {pillar.num}
+                  </span>
 
-              {/* Hover arrow */}
-              <div className="hidden md:flex items-center self-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
-                <ArrowRight className="size-5 text-zinc-400" />
+                  {/* Content */}
+                  <div className="relative">
+                    {/* Icon + title row */}
+                    <div className="flex items-center gap-3 mb-4">
+                      <pillar.icon className={`size-5 ${pillar.color}`} />
+                      <h3 className={`text-2xl md:text-3xl font-semibold ${pillar.color}`}>{pillar.title}</h3>
+                    </div>
+
+                    {/* Subtitle */}
+                    <p className="text-sm font-medium text-zinc-400 uppercase tracking-wider mb-4">
+                      {pillar.subtitle}
+                    </p>
+
+                    {/* Description */}
+                    <p className="text-zinc-600 leading-relaxed text-[15px] max-w-sm">
+                      {pillar.description}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        {/* Visual flow diagram */}
-        <div className="mt-14 flex justify-center">
-          <div className="inline-flex items-center gap-4 md:gap-6 rounded-full border border-zinc-200 bg-white px-6 md:px-8 py-3.5 shadow-sm">
-            <div className="flex items-center gap-2.5">
-              <div className="size-2.5 rounded-full bg-violet-500" />
-              <span className="text-sm text-zinc-600 font-medium">Vote</span>
-            </div>
-            <Separator orientation="horizontal" className="!w-8 !bg-zinc-200" />
-            <div className="flex items-center gap-2.5">
-              <div className="size-2.5 rounded-full bg-indigo-500" />
-              <span className="text-sm text-zinc-600 font-medium">ZK Proof</span>
-            </div>
-            <Separator orientation="horizontal" className="!w-8 !bg-zinc-200" />
-            <div className="flex items-center gap-2.5">
-              <div className="size-2.5 rounded-full bg-emerald-500" />
-              <span className="text-sm text-zinc-600 font-medium">Verified</span>
-            </div>
+        {/* Bottom equation */}
+        <div className="mt-16 flex justify-center">
+          <div className="flex items-center gap-3 md:gap-5 text-sm font-medium text-zinc-500">
+            <span className="flex items-center gap-2">
+              <span className="size-2 rounded-full bg-violet-500" />
+              Privacy
+            </span>
+            <span className="text-zinc-300 text-lg">+</span>
+            <span className="flex items-center gap-2">
+              <span className="size-2 rounded-full bg-blue-500" />
+              Transparency
+            </span>
+            <span className="text-zinc-300 text-lg">=</span>
+            <span className="flex items-center gap-2 text-zinc-800 font-semibold">
+              <span className="size-2 rounded-full bg-emerald-500" />
+              Trust
+            </span>
           </div>
         </div>
       </div>

@@ -21,11 +21,11 @@ export function Hero() {
         />
       </div>
 
-      {/* Layered overlays - minimal to let silk show through */}
-      <div className="absolute inset-0 z-10 bg-stone-50/20 pointer-events-none" />
+      {/* Layered overlays - very light to let silk dominate */}
+      <div className="absolute inset-0 z-10 bg-stone-50/10 pointer-events-none" />
       <div className="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-transparent to-stone-50 pointer-events-none" />
       {/* Center vignette for text readability */}
-      <div className="absolute inset-0 z-10 pointer-events-none" style={{ background: "radial-gradient(ellipse 55% 45% at 50% 48%, rgba(250,250,249,0.45) 0%, transparent 65%)" }} />
+      <div className="absolute inset-0 z-10 pointer-events-none" style={{ background: "radial-gradient(ellipse 50% 40% at 50% 48%, rgba(250,250,249,0.35) 0%, transparent 60%)" }} />
 
       {/* Main content */}
       <div className="relative z-20 max-w-4xl mx-auto px-6 text-center">

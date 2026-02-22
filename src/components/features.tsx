@@ -1,6 +1,5 @@
 import { Shield, Eye, CheckCircle2, Zap, Lock, Globe } from "lucide-react"
 import { BentoGrid, BentoCard } from "@/components/ui/bento-grid"
-import { Badge } from "@/components/ui/badge"
 
 function RingsBackground() {
   return (
@@ -168,9 +167,6 @@ export function Features() {
       <div className="max-w-6xl mx-auto relative">
         {/* Section header */}
         <div className="text-center mb-12">
-          <Badge variant="outline" className="!rounded-full !bg-zinc-100 !border-zinc-200 !text-zinc-500 !h-auto px-4 py-1.5 mb-8 uppercase text-xs tracking-wider">
-            Features
-          </Badge>
           <h2 className="text-4xl md:text-5xl font-semibold text-zinc-900 mb-5 text-balance">
             Why <span className="font-serif italic text-violet-600">ZK Vote</span>?
           </h2>

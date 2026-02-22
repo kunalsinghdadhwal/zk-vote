@@ -94,7 +94,7 @@
     background-position: -200% 0;
     }
   }
-  --animate-line-shadow: line-shadow 40s linear infinite
+  --animate-line-shadow: line-shadow 80s linear infinite
 ;
   @keyframes line-shadow {
   0% {
