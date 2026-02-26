@@ -1,10 +1,5 @@
 import { NextResponse } from "next/server";
-import { SelfBackendVerifier, ATTESTATION_ID, DefaultConfigStore } from "@selfxyz/core";
-import type { AttestationId } from "@selfxyz/core";
-
-const aadhaarOnly = new Map<AttestationId, boolean>([
-  [ATTESTATION_ID.AADHAAR, true],
-]);
+import { SelfBackendVerifier, AllIds, DefaultConfigStore } from "@selfxyz/core";
 
 let verifier: SelfBackendVerifier | null = null;
 
@@ -18,7 +13,7 @@ function getVerifier() {
       "zk-vote",
       endpoint,
       false,
-      aadhaarOnly,
+      AllIds,
       new DefaultConfigStore({
         minimumAge: 18,
       }),
@@ -30,21 +25,33 @@ function getVerifier() {
 
 export async function POST(req: Request) {
   try {
-    const { attestationId, proof, publicSignals, userContextData } = await req.json();
+    const body = await req.json();
+    console.log("[verify] Received body keys:", Object.keys(body));
+    console.log("[verify] attestationId:", body.attestationId);
+
+    const { attestationId, proof, publicSignals, userContextData } = body;
 
     if (!proof || !publicSignals || !attestationId || !userContextData) {
+      console.log("[verify] Missing fields:", {
+        hasProof: !!proof,
+        hasPublicSignals: !!publicSignals,
+        hasAttestationId: !!attestationId,
+        hasUserContextData: !!userContextData,
+      });
       return NextResponse.json(
         { status: "error", result: false, message: "Missing required fields: proof, publicSignals, attestationId, and userContextData are required" },
         { status: 400 }
       );
     }
 
+    console.log("[verify] Starting verification...");
     const result = await getVerifier().verify(
       attestationId,
       proof,
       publicSignals,
       userContextData
     );
+    console.log("[verify] Verification result:", JSON.stringify(result.isValidDetails));
 
     if (result.isValidDetails.isValid) {
       return NextResponse.json({
@@ -60,6 +67,7 @@ export async function POST(req: Request) {
       });
     }
   } catch (error) {
+    console.error("[verify] Error:", error);
     return NextResponse.json(
       {
         status: "error",
