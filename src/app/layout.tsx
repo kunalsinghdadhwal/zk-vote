@@ -21,7 +21,7 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 })
 
-const siteUrl = "https://zk-vote.vercel.app"
+const siteUrl = "https://zk.kxnl.in"
 
 export const metadata: Metadata = {
   title: "ZK Vote | Private Voting with Zero-Knowledge Proofs",

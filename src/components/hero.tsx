@@ -9,7 +9,7 @@ import Silk from "./Silk"
 export function Hero() {
   return (
     <section className="relative min-h-dvh w-full flex items-center justify-center overflow-hidden bg-stone-50">
-      {/* Silk background - pinned to full viewport */}
+      {/* Silk background */}
       <div className="absolute inset-0 z-0 w-screen left-1/2 -translate-x-1/2">
         <Silk
           speed={3}
@@ -20,7 +20,7 @@ export function Hero() {
         />
       </div>
 
-      {/* Layered overlays - very light to let silk dominate */}
+      {/* Layered overlays */}
       <div className="absolute inset-0 z-10 bg-stone-50/10 pointer-events-none" />
       <div className="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-transparent to-stone-50 pointer-events-none" />
       {/* Center vignette for text readability */}

@@ -17,7 +17,7 @@ function getVerifier() {
     verifier = new SelfBackendVerifier(
       "zk-vote",
       endpoint,
-      true,
+      false,
       aadhaarOnly,
       new DefaultConfigStore({
         minimumAge: 18,

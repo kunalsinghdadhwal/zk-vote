@@ -30,7 +30,7 @@ export function SelfVerification({ onVerified }: SelfVerificationProps) {
         endpoint,
         logoBase64: 'https://i.postimg.cc/mrmVf9hm/self.png',
         userId: ethers.ZeroAddress,
-        endpointType: 'staging_https',
+        endpointType: 'https',
         userIdType: 'hex',
         disclosures: {
           minimumAge: 18,
