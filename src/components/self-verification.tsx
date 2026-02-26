@@ -75,9 +75,13 @@ export function SelfVerification({ onVerified }: SelfVerificationProps) {
               <div className="rounded-xl overflow-hidden bg-white">
                 <SelfQRcodeWrapper
                   selfApp={selfApp}
-                  onSuccess={onVerified}
-                  onError={(error) => {
-                    console.error('Verification failed:', error)
+                  onSuccess={() => {
+                    console.log('[self] onSuccess fired')
+                    onVerified()
+                  }}
+                  onError={(err) => {
+                    console.error('[self] onError:', err)
+                    setError(err?.reason || err?.error_code || 'Verification failed on the Self relayer')
                   }}
                   darkMode={false}
                   size={220}
