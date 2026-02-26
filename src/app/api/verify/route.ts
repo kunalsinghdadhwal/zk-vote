@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { SelfBackendVerifier, AllIds, DefaultConfigStore } from "@selfxyz/core";
-import { createVerificationToken, COOKIE_NAME } from "@/lib/auth";
+import { markSessionVerified } from "@/lib/auth";
 
 let verifier: SelfBackendVerifier | null = null;
 
@@ -26,9 +26,13 @@ function getVerifier() {
 
 export async function POST(req: Request) {
   try {
+    // Extract sessionId from query params (appended by frontend)
+    const url = new URL(req.url);
+    const sessionId = url.searchParams.get("session");
+
     const body = await req.json();
     console.log("[verify] Received body keys:", Object.keys(body));
-    console.log("[verify] attestationId:", body.attestationId);
+    console.log("[verify] sessionId:", sessionId);
 
     const { attestationId, proof, publicSignals, userContextData } = body;
 
@@ -55,25 +59,17 @@ export async function POST(req: Request) {
     console.log("[verify] Verification result:", JSON.stringify(result.isValidDetails));
 
     if (result.isValidDetails.isValid) {
-      const uuid = crypto.randomUUID();
-      const token = await createVerificationToken(uuid);
+      // Store session as verified so the browser can claim the cookie
+      if (sessionId) {
+        markSessionVerified(sessionId);
+        console.log("[verify] Session marked verified:", sessionId);
+      }
 
-      const response = NextResponse.json({
+      return NextResponse.json({
         status: "success",
         result: true,
         credentialSubject: result.discloseOutput,
-        verificationId: uuid,
       });
-
-      response.cookies.set(COOKIE_NAME, token, {
-        httpOnly: true,
-        path: "/",
-        maxAge: 86400,
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-      });
-
-      return response;
     } else {
       return NextResponse.json({
         status: "error",

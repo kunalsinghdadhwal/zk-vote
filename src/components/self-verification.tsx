@@ -8,19 +8,24 @@ import { Separator } from '@/components/ui/separator'
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
 
 interface SelfVerificationProps {
+  sessionId: string
   onVerified: () => void
 }
 
-export function SelfVerification({ onVerified }: SelfVerificationProps) {
+export function SelfVerification({ sessionId, onVerified }: SelfVerificationProps) {
   const [selfApp, setSelfApp] = useState<ReturnType<SelfAppBuilder['build']> | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [claiming, setClaiming] = useState(false)
 
   useEffect(() => {
-    const endpoint = process.env.NEXT_PUBLIC_SELF_ENDPOINT
-    if (!endpoint) {
+    const baseEndpoint = process.env.NEXT_PUBLIC_SELF_ENDPOINT
+    if (!baseEndpoint) {
       setError('NEXT_PUBLIC_SELF_ENDPOINT is not configured. Set it in .env.local to your ngrok URL + /api/verify.')
       return
     }
+
+    // Append sessionId so /api/verify can correlate this browser session
+    const endpoint = `${baseEndpoint}?session=${sessionId}`
 
     try {
       const app = new SelfAppBuilder({
@@ -42,25 +47,40 @@ export function SelfVerification({ onVerified }: SelfVerificationProps) {
       console.error('Failed to initialize Self app:', err)
       setError(err instanceof Error ? err.message : 'Failed to initialize verification')
     }
-  }, [])
+  }, [sessionId])
+
+  const handleSuccess = async () => {
+    console.log('[self] onSuccess fired, claiming cookie...')
+    setClaiming(true)
+    try {
+      const res = await fetch('/api/verify/claim', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId }),
+      })
+      const data = await res.json()
+      if (data.status === 'success') {
+        console.log('[self] Cookie claimed successfully')
+        onVerified()
+      } else {
+        console.error('[self] Claim failed:', data)
+        setError('Verification succeeded but session claim failed. Please try again.')
+        setClaiming(false)
+      }
+    } catch (err) {
+      console.error('[self] Claim error:', err)
+      setError('Failed to complete verification. Please try again.')
+      setClaiming(false)
+    }
+  }
 
   return (
     <div className="w-full max-w-md mx-auto">
-      {/* Header */}
-      <div className="text-center mb-8">
-        <h2 className="opacity-0 animate-fade-in-up text-2xl font-semibold text-zinc-900 mb-2">
-          Verify your identity
-        </h2>
-        <p className="opacity-0 animate-fade-in-up delay-100 text-sm text-zinc-500 leading-relaxed max-w-xs mx-auto">
-          Scan with the Self app to verify your Aadhaar using zero-knowledge proofs.
-        </p>
-      </div>
-
       {/* Error state */}
       {error && (
-        <div className="opacity-0 animate-fade-in-up delay-200 mb-6">
+        <div className="opacity-0 animate-fade-in-up mb-6">
           <Alert variant="error" className="!bg-red-50 !border-red-200 !text-red-700">
-            <AlertTitle className="!text-red-700 text-sm">Configuration Error</AlertTitle>
+            <AlertTitle className="!text-red-700 text-sm">Error</AlertTitle>
             <AlertDescription className="!text-red-600 text-xs">{error}</AlertDescription>
           </Alert>
         </div>
@@ -68,17 +88,19 @@ export function SelfVerification({ onVerified }: SelfVerificationProps) {
 
       {/* QR Card */}
       <div className="opacity-0 animate-fade-in-up delay-200 rounded-2xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
-        {selfApp ? (
+        {claiming ? (
+          <div className="flex flex-col items-center justify-center py-20 gap-4">
+            <Loader2 className="size-6 text-emerald-500 animate-spin" />
+            <p className="text-sm text-zinc-500">Completing verification...</p>
+          </div>
+        ) : selfApp ? (
           <div className="flex flex-col items-center">
             {/* QR Code area */}
             <div className="w-full flex justify-center py-8 px-8">
               <div className="rounded-xl overflow-hidden bg-white">
                 <SelfQRcodeWrapper
                   selfApp={selfApp}
-                  onSuccess={() => {
-                    console.log('[self] onSuccess fired')
-                    onVerified()
-                  }}
+                  onSuccess={handleSuccess}
                   onError={(err) => {
                     console.error('[self] onError:', err)
                     setError(err?.reason || err?.error_code || 'Verification failed on the Self relayer')
