@@ -22,7 +22,7 @@ export function CTASection() {
 
           {/* CTA */}
           <div className="relative flex justify-center">
-            <Link href="/vote">
+            <Link href="/verify">
               <Button variant="default" size="lg">
                 Get Started
                 <ArrowRight className="size-4" />

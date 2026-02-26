@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useAccount } from 'wagmi'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { SelfVerification } from '@/components/self-verification'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { RadioGroup, Radio } from '@/components/ui/radio-group'
@@ -25,7 +24,6 @@ import {
   Shield,
   ArrowLeft,
   Check,
-  Fingerprint,
   CircleDot,
   Lock,
   ArrowRight,
@@ -38,11 +36,10 @@ import {
   ExternalLink,
 } from 'lucide-react'
 
-type Phase = 'connect' | 'verify' | 'vote' | 'confirmed'
+type Phase = 'connect' | 'vote' | 'confirmed'
 
 const stepsMeta = [
   { key: 'connect', label: 'Connect', icon: Wallet },
-  { key: 'verify', label: 'Verify', icon: Fingerprint },
   { key: 'vote', label: 'Vote', icon: CircleDot },
   { key: 'confirmed', label: 'Done', icon: Check },
 ] as const
@@ -58,7 +55,7 @@ export default function VotePage() {
   // Auto-advance from connect phase when wallet connects
   useEffect(() => {
     if (isConnected && phase === 'connect') {
-      setPhase('verify')
+      setPhase('vote')
     }
     if (!isConnected && phase !== 'connect') {
       setPhase('connect')
@@ -164,9 +161,6 @@ export default function VotePage() {
               </div>
             </div>
           )}
-
-          {/* ===================== VERIFY PHASE ===================== */}
-          {phase === 'verify' && <SelfVerification onVerified={() => setPhase('vote')} />}
 
           {/* ===================== VOTE PHASE ===================== */}
           {phase === 'vote' && (

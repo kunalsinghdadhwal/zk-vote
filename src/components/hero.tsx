@@ -45,7 +45,7 @@ export function Hero() {
 
         {/* CTA Buttons */}
         <div className="opacity-0 animate-fade-in-up delay-300 flex flex-row gap-3 justify-center">
-          <Link href="/vote">
+          <Link href="/verify">
             <Button variant="default" size="lg">
               Launch App
               <ArrowRight className="size-4" />
