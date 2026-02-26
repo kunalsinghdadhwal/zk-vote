@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 
 import { Analytics } from "@vercel/analytics/next"
 import { Instrument_Sans, Instrument_Serif } from "next/font/google"
+import { Providers } from "@/components/providers"
 import "./globals.css"
 
 // Primary font - clean, modern sans-serif
@@ -76,7 +77,9 @@ export default function RootLayout({
       <body
         className={`${instrumentSans.variable} ${instrumentSerif.variable} font-sans antialiased`}
       >
-        {children}
+        <Providers>
+          {children}
+        </Providers>
         <Analytics />
       </body>
     </html>
