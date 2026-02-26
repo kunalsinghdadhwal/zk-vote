@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { SelfBackendVerifier, AllIds, DefaultConfigStore } from "@selfxyz/core";
+import { createVerificationToken, COOKIE_NAME } from "@/lib/auth";
 
 let verifier: SelfBackendVerifier | null = null;
 
@@ -54,11 +55,25 @@ export async function POST(req: Request) {
     console.log("[verify] Verification result:", JSON.stringify(result.isValidDetails));
 
     if (result.isValidDetails.isValid) {
-      return NextResponse.json({
+      const uuid = crypto.randomUUID();
+      const token = await createVerificationToken(uuid);
+
+      const response = NextResponse.json({
         status: "success",
         result: true,
         credentialSubject: result.discloseOutput,
+        verificationId: uuid,
       });
+
+      response.cookies.set(COOKIE_NAME, token, {
+        httpOnly: true,
+        path: "/",
+        maxAge: 86400,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+      });
+
+      return response;
     } else {
       return NextResponse.json({
         status: "error",
