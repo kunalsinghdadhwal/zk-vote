@@ -5,13 +5,13 @@ import '@rainbow-me/rainbowkit/styles.css'
 import { type ReactNode } from 'react'
 import { WagmiProvider, createConfig, http } from 'wagmi'
 import { baseSepolia } from 'wagmi/chains'
+import { injected } from 'wagmi/connectors'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { RainbowKitProvider, getDefaultConfig } from '@rainbow-me/rainbowkit'
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
 
-const config = getDefaultConfig({
-  appName: 'ZK Vote',
-  projectId: 'zk-vote-local', // WalletConnect not needed for extension wallets
+const config = createConfig({
   chains: [baseSepolia],
+  connectors: [injected()],
   transports: {
     [baseSepolia.id]: http('https://base-sepolia-rpc.publicnode.com'),
   },
