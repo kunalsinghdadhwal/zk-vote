@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { SelfQRcodeWrapper, SelfAppBuilder } from '@selfxyz/qrcode'
 import { ethers } from 'ethers'
+import { motion, AnimatePresence } from 'motion/react'
 import { Loader2, Fingerprint, Lock, Eye } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
@@ -11,6 +12,8 @@ interface SelfVerificationProps {
   sessionId: string
   onVerified: () => void
 }
+
+const ease = [0.16, 1, 0.3, 1] as const
 
 export function SelfVerification({ sessionId, onVerified }: SelfVerificationProps) {
   const [selfApp, setSelfApp] = useState<ReturnType<SelfAppBuilder['build']> | null>(null)
@@ -77,72 +80,118 @@ export function SelfVerification({ sessionId, onVerified }: SelfVerificationProp
   return (
     <div className="w-full max-w-md mx-auto">
       {/* Error state */}
-      {error && (
-        <div className="opacity-0 animate-fade-in-up mb-6">
-          <Alert variant="error" className="!bg-red-50 !border-red-200 !text-red-700">
-            <AlertTitle className="!text-red-700 text-sm">Error</AlertTitle>
-            <AlertDescription className="!text-red-600 text-xs">{error}</AlertDescription>
-          </Alert>
-        </div>
-      )}
+      <AnimatePresence>
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -8, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: 'auto' }}
+            exit={{ opacity: 0, y: -8, height: 0 }}
+            transition={{ duration: 0.35, ease }}
+            className="mb-6 overflow-hidden"
+          >
+            <Alert variant="error" className="!bg-red-50 !border-red-200 !text-red-700">
+              <AlertTitle className="!text-red-700 text-sm">Error</AlertTitle>
+              <AlertDescription className="!text-red-600 text-xs">{error}</AlertDescription>
+            </Alert>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* QR Card */}
-      <div className="opacity-0 animate-fade-in-up delay-200 rounded-2xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
-        {claiming ? (
-          <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <Loader2 className="size-6 text-emerald-500 animate-spin" />
-            <p className="text-sm text-zinc-500">Completing verification...</p>
-          </div>
-        ) : selfApp ? (
-          <div className="flex flex-col items-center">
-            {/* QR Code area */}
-            <div className="w-full flex justify-center py-8 px-8">
-              <div className="rounded-xl overflow-hidden bg-white">
-                <SelfQRcodeWrapper
-                  selfApp={selfApp}
-                  onSuccess={handleSuccess}
-                  onError={(err) => {
-                    console.error('[self] onError:', err)
-                    setError(err?.reason || err?.error_code || 'Verification failed on the Self relayer')
-                  }}
-                  darkMode={false}
-                  size={220}
-                />
+      <div className="rounded-2xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
+        <AnimatePresence mode="wait">
+          {claiming ? (
+            <motion.div
+              key="claiming"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col items-center justify-center py-20 gap-4"
+            >
+              <Loader2 className="size-6 text-emerald-500 animate-spin" />
+              <p className="text-sm text-zinc-500">Completing verification...</p>
+            </motion.div>
+          ) : selfApp ? (
+            <motion.div
+              key="qr"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col items-center"
+            >
+              {/* QR Code area */}
+              <div className="w-full flex justify-center py-8 px-8">
+                <div className="rounded-xl overflow-hidden bg-white">
+                  <SelfQRcodeWrapper
+                    selfApp={selfApp}
+                    onSuccess={handleSuccess}
+                    onError={(err) => {
+                      console.error('[self] onError:', err)
+                      setError(err?.reason || err?.error_code || 'Verification failed on the Self relayer')
+                    }}
+                    darkMode={false}
+                    size={220}
+                  />
+                </div>
               </div>
-            </div>
 
-            <Separator className="!bg-zinc-100" />
+              <Separator className="!bg-zinc-100" />
 
-            {/* Status bar */}
-            <div className="w-full px-5 py-3.5 flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs text-zinc-500">Waiting for scan</span>
+              {/* Status bar */}
+              <div className="w-full px-5 py-3.5 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <motion.div
+                    className="size-2 rounded-full bg-emerald-500"
+                    animate={{ opacity: [1, 0.4, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                  />
+                  <span className="text-xs text-zinc-500">Waiting for scan</span>
+                </div>
+                <span className="text-xs text-zinc-400">Self Protocol</span>
               </div>
-              <span className="text-xs text-zinc-400">Self Protocol</span>
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <Loader2 className="size-6 text-violet-500 animate-spin" />
-            <p className="text-sm text-zinc-400">Initializing...</p>
-          </div>
-        )}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col items-center justify-center py-20 gap-4"
+            >
+              <Loader2 className="size-6 text-violet-500 animate-spin" />
+              <p className="text-sm text-zinc-400">Initializing...</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Trust indicators */}
-      <div className="opacity-0 animate-fade-in delay-400 mt-6 flex items-center justify-center gap-6 text-zinc-400">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.5 }}
+        className="mt-6 flex items-center justify-center gap-6 text-zinc-400"
+      >
         {[
           { icon: Fingerprint, label: 'Aadhaar' },
           { icon: Lock, label: 'Encrypted' },
           { icon: Eye, label: 'No data stored' },
-        ].map((item) => (
-          <div key={item.label} className="flex items-center gap-1.5">
+        ].map((item, i) => (
+          <motion.div
+            key={item.label}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.55 + i * 0.08, ease }}
+            className="flex items-center gap-1.5"
+          >
             <item.icon className="size-3 text-zinc-300" />
             <span className="text-[11px]">{item.label}</span>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   )
 }
