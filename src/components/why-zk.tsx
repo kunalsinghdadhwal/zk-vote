@@ -8,10 +8,10 @@ const pillars = [
     title: "Privacy",
     subtitle: "Your secret, mathematically guaranteed",
     description: "ZK proofs ensure no one can link your identity to your choice. Your vote remains yours alone.",
-    color: "text-violet-600",
-    dot: "bg-violet-500",
-    line: "from-violet-400/60",
-    numColor: "text-violet-200",
+    color: "text-red-600",
+    dot: "bg-red-500",
+    line: "from-red-400/60",
+    numColor: "text-red-200",
     align: "md:mr-auto" as const,
   },
   {
@@ -51,7 +51,7 @@ export function WhyZK() {
           </Badge>
           <h2 className="text-4xl md:text-5xl font-semibold text-zinc-900 mb-5 text-balance">
             The Power of{" "}
-            <span className="font-serif italic text-violet-600">Zero-Knowledge</span>
+            <span className="font-serif italic text-red-600">Zero-Knowledge</span>
           </h2>
           <p className="text-zinc-500 max-w-xl mx-auto text-lg font-light leading-relaxed text-pretty">
             Zero-knowledge proofs solve the fundamental tension between privacy and transparency in voting.
@@ -112,7 +112,7 @@ export function WhyZK() {
         <div className="mt-16 flex justify-center">
           <div className="flex items-center gap-3 md:gap-5 text-sm font-medium text-zinc-500">
             <span className="flex items-center gap-2">
-              <span className="size-2 rounded-full bg-violet-500" />
+              <span className="size-2 rounded-full bg-red-500" />
               Privacy
             </span>
             <span className="text-zinc-300 text-lg">+</span>

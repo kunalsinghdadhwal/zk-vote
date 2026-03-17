@@ -78,7 +78,7 @@ export default function VotePage() {
       >
         <div className="max-w-2xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="size-7 rounded-lg bg-violet-600 flex items-center justify-center">
+            <div className="size-7 rounded-lg bg-red-600 flex items-center justify-center">
               <Shield className="size-3.5 text-white" />
             </div>
             <span className="text-sm font-semibold text-zinc-900 tracking-tight">ZK Vote</span>
@@ -140,7 +140,7 @@ export default function VotePage() {
                         backgroundColor: isComplete
                           ? 'rgb(16, 185, 129)'
                           : isCurrent
-                            ? 'rgb(124, 58, 237)'
+                            ? 'rgb(220, 38, 38)'
                             : 'rgb(244, 244, 245)',
                         color: isComplete || isCurrent
                           ? 'rgb(255, 255, 255)'
@@ -148,7 +148,7 @@ export default function VotePage() {
                         boxShadow: isComplete
                           ? '0 1px 3px rgba(16, 185, 129, 0.25)'
                           : isCurrent
-                            ? '0 1px 3px rgba(124, 58, 237, 0.25)'
+                            ? '0 1px 3px rgba(220, 38, 38, 0.25)'
                             : '0 0 0 1px rgb(228, 228, 231)',
                       }}
                       transition={{ duration: 0.5, ease }}
@@ -183,7 +183,7 @@ export default function VotePage() {
                         color: isComplete
                           ? 'rgb(5, 150, 105)'
                           : isCurrent
-                            ? 'rgb(124, 58, 237)'
+                            ? 'rgb(220, 38, 38)'
                             : 'rgb(161, 161, 170)',
                       }}
                       transition={{ duration: 0.5, ease }}
@@ -214,8 +214,8 @@ export default function VotePage() {
                   transition={{ duration: 0.5, delay: 0.1, ease }}
                   className="mb-8"
                 >
-                  <div className="size-16 rounded-2xl bg-violet-100 flex items-center justify-center mx-auto mb-5">
-                    <Wallet className="size-7 text-violet-600" />
+                  <div className="size-16 rounded-2xl bg-red-100 flex items-center justify-center mx-auto mb-5">
+                    <Wallet className="size-7 text-red-600" />
                   </div>
                   <h2 className="text-2xl font-semibold text-zinc-900 mb-2">Connect your wallet</h2>
                   <p className="text-sm text-zinc-500 leading-relaxed max-w-xs mx-auto">
@@ -374,7 +374,7 @@ export default function VotePage() {
                   className="rounded-xl border border-zinc-200 bg-white p-5 mb-6 text-left"
                 >
                   <div className="flex items-center gap-2 mb-4">
-                    <Shield className="size-3.5 text-violet-500" />
+                    <Shield className="size-3.5 text-red-500" />
                     <span className="text-xs text-zinc-400 font-medium uppercase tracking-wider">
                       Receipt
                     </span>
@@ -407,7 +407,7 @@ export default function VotePage() {
                             href={`https://sepolia.basescan.org/tx/${txHash}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm text-violet-600 font-mono hover:underline inline-flex items-center gap-1"
+                            className="text-sm text-red-600 font-mono hover:underline inline-flex items-center gap-1"
                           >
                             {txHash.slice(0, 8)}...{txHash.slice(-6)}
                             <ExternalLink className="size-3" />
@@ -479,7 +479,7 @@ function ProposalsList({
         transition={{ duration: 0.3 }}
         className="flex items-center justify-center py-12 gap-3"
       >
-        <Loader2 className="size-5 text-violet-500 animate-spin" />
+        <Loader2 className="size-5 text-red-500 animate-spin" />
         <span className="text-sm text-zinc-400">Loading proposals...</span>
       </motion.div>
     )
@@ -593,7 +593,7 @@ function ProposalCard({
       transition={{ duration: 0.3, ease }}
       className={`rounded-xl border transition-colors duration-200 ${
         isExpanded
-          ? 'border-violet-300 bg-violet-50/30 shadow-sm'
+          ? 'border-red-300 bg-red-50/30 shadow-sm'
           : 'border-zinc-200 bg-white hover:border-zinc-300'
       }`}
     >
@@ -656,7 +656,7 @@ function ProposalCard({
                         <div
                           className={`relative rounded-lg border px-4 py-3 transition-all duration-150 ${
                             selectedOption === String(i)
-                              ? 'border-violet-400 bg-violet-50/60'
+                              ? 'border-red-400 bg-red-50/60'
                               : 'border-zinc-200 bg-white hover:border-zinc-300'
                           }`}
                         >
@@ -798,7 +798,7 @@ function ProposalCard({
                             </div>
                             <div className="h-2 rounded-full bg-zinc-100 overflow-hidden">
                               <motion.div
-                                className="h-full rounded-full bg-violet-500"
+                                className="h-full rounded-full bg-red-500"
                                 initial={{ width: 0 }}
                                 animate={{ width: `${pct}%` }}
                                 transition={{ duration: 0.8, delay: i * 0.1, ease }}

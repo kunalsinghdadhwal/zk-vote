@@ -12,7 +12,7 @@ export function CTASection() {
           {/* Heading */}
           <h2 className="relative text-3xl md:text-4xl font-semibold text-zinc-900 mb-5 text-balance">
             Ready to Vote{" "}
-            <span className="font-serif italic text-violet-600">Privately</span>?
+            <span className="font-serif italic text-red-600">Privately</span>?
           </h2>
 
           {/* Description */}

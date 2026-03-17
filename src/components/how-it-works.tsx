@@ -34,7 +34,7 @@ export function HowItWorks() {
         {/* Section header */}
         <div className="text-center mb-10">
           <h2 className="text-4xl md:text-5xl font-semibold text-zinc-900 mb-5 text-balance">
-            How It <span className="font-serif italic text-violet-600">Works</span>
+            How It <span className="font-serif italic text-red-600">Works</span>
           </h2>
           <p className="text-zinc-500 text-lg font-light text-pretty">
             Four simple steps to cast a completely private, verifiable vote.

@@ -2,6 +2,8 @@
 
 SELF.txt
 
+INCO.txt
+RAINBOW.txt
 # dependencies
 /node_modules
 /.pnp

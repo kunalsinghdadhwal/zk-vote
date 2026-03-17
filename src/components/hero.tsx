@@ -14,7 +14,7 @@ export function Hero() {
         <Silk
           speed={3}
           scale={1.2}
-          color="#6366f1"
+          color="#8B4444"
           noiseIntensity={1.2}
           rotation={0.2}
         />

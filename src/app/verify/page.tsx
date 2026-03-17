@@ -47,7 +47,7 @@ export default function VerifyPage() {
 
       {/* Top ambient glow */}
       <motion.div
-        className="fixed top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-violet-400/[0.06] blur-[100px] pointer-events-none"
+        className="fixed top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-red-400/[0.06] blur-[100px] pointer-events-none"
         animate={{
           opacity: phase === 'success' ? [0.06, 0.12, 0.06] : 0.06,
           scale: phase === 'success' ? [1, 1.1, 1] : 1,
@@ -64,7 +64,7 @@ export default function VerifyPage() {
       >
         <div className="max-w-2xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="size-7 rounded-lg bg-violet-600 flex items-center justify-center shadow-sm shadow-violet-600/20">
+            <div className="size-7 rounded-lg bg-red-600 flex items-center justify-center shadow-sm shadow-red-600/20">
               <Shield className="size-3.5 text-white" />
             </div>
             <span className="text-sm font-semibold text-zinc-900 tracking-tight">ZK Vote</span>
@@ -115,7 +115,7 @@ export default function VerifyPage() {
                         backgroundColor: isComplete
                           ? 'rgb(16, 185, 129)'
                           : isActive
-                            ? 'rgb(124, 58, 237)'
+                            ? 'rgb(220, 38, 38)'
                             : 'rgb(244, 244, 245)',
                         color: isComplete || isActive
                           ? 'rgb(255, 255, 255)'
@@ -123,7 +123,7 @@ export default function VerifyPage() {
                         boxShadow: isComplete
                           ? '0 1px 3px rgba(16, 185, 129, 0.25)'
                           : isActive
-                            ? '0 1px 3px rgba(124, 58, 237, 0.25)'
+                            ? '0 1px 3px rgba(220, 38, 38, 0.25)'
                             : '0 0 0 1px rgb(228, 228, 231)',
                       }}
                       transition={{ duration: 0.5, ease }}
@@ -158,7 +158,7 @@ export default function VerifyPage() {
                         color: isComplete
                           ? 'rgb(5, 150, 105)'
                           : isActive
-                            ? 'rgb(124, 58, 237)'
+                            ? 'rgb(220, 38, 38)'
                             : 'rgb(161, 161, 170)',
                       }}
                       transition={{ duration: 0.5, ease }}
@@ -191,7 +191,7 @@ export default function VerifyPage() {
                     className="text-3xl md:text-4xl font-semibold text-zinc-900 mb-3 text-balance"
                   >
                     Prove you&apos;re{' '}
-                    <span className="font-serif italic text-violet-600">human</span>
+                    <span className="font-serif italic text-red-600">human</span>
                   </motion.h1>
                   <motion.p
                     initial={{ opacity: 0, y: 12 }}

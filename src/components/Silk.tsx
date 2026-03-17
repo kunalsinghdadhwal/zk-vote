@@ -125,7 +125,7 @@ export interface SilkProps {
   rotation?: number;
 }
 
-const Silk: React.FC<SilkProps> = ({ speed = 5, scale = 1, color = '#7B7481', noiseIntensity = 1.5, rotation = 0 }) => {
+const Silk: React.FC<SilkProps> = ({ speed = 5, scale = 1, color = '#7B4848', noiseIntensity = 1.5, rotation = 0 }) => {
   const meshRef = useRef<Mesh>(null);
 
   const uniforms = useMemo<SilkUniforms>(

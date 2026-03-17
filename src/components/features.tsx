@@ -7,11 +7,11 @@ function RingsBackground() {
       {[120, 200, 280].map((size) => (
         <div
           key={size}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-violet-400/25"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-red-400/25"
           style={{ width: size, height: size }}
         />
       ))}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-8 rounded-full bg-violet-400/15 blur-sm" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-8 rounded-full bg-red-400/15 blur-sm" />
     </div>
   )
 }
@@ -168,7 +168,7 @@ export function Features() {
         {/* Section header */}
         <div className="text-center mb-8">
           <h2 className="text-4xl md:text-5xl font-semibold text-zinc-900 mb-5 text-balance">
-            Why <span className="font-serif italic text-violet-600">ZK Vote</span>?
+            Why <span className="font-serif italic text-red-600">ZK Vote</span>?
           </h2>
           <p className="text-zinc-500 max-w-xl mx-auto text-lg font-light leading-relaxed text-pretty">
             Built on cutting-edge zero-knowledge technology to ensure every vote is private, verifiable, and secure.

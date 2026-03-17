@@ -67,7 +67,7 @@ export function Footer() {
       <div className="grid w-full gap-8 py-6 md:py-8 lg:grid-cols-3 lg:gap-8">
         <AnimatedContainer className="space-y-4">
           <div className="flex items-center gap-2.5">
-            <div className="size-8 rounded-lg bg-violet-600 flex items-center justify-center">
+            <div className="size-8 rounded-lg bg-red-600 flex items-center justify-center">
               <Shield className="size-4 text-white" />
             </div>
             <span className="font-medium text-zinc-900">ZK Vote</span>
