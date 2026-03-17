@@ -44,7 +44,7 @@ export function Hero() {
         </p>
 
         {/* CTA Buttons */}
-        <div className="opacity-0 animate-fade-in-up delay-300 flex flex-row gap-3 justify-center">
+        <div className="opacity-0 animate-fade-in-up delay-300 flex flex-row gap-3 justify-center [&_button]:active:scale-[0.97] [&_button]:transition-transform [&_button]:duration-150">
           <Link href="/verify">
             <Button variant="default" size="lg">
               Launch App

@@ -3,7 +3,7 @@ import { BentoGrid, BentoCard } from "@/components/ui/bento-grid"
 
 function RingsBackground() {
   return (
-    <div className="absolute inset-0 overflow-hidden opacity-40 group-hover:opacity-60 transition-opacity duration-500">
+    <div className="absolute inset-0 overflow-hidden opacity-40 group-hover:opacity-60 transition-opacity duration-300">
       {[120, 200, 280].map((size) => (
         <div
           key={size}
@@ -18,7 +18,7 @@ function RingsBackground() {
 
 function GridDotsBackground() {
   return (
-    <div className="absolute inset-0 overflow-hidden opacity-30 group-hover:opacity-50 transition-opacity duration-500">
+    <div className="absolute inset-0 overflow-hidden opacity-30 group-hover:opacity-50 transition-opacity duration-300">
       <div
         className="absolute inset-0"
         style={{
@@ -33,7 +33,7 @@ function GridDotsBackground() {
 
 function HexagonBackground() {
   return (
-    <div className="absolute inset-0 overflow-hidden opacity-35 group-hover:opacity-55 transition-opacity duration-500">
+    <div className="absolute inset-0 overflow-hidden opacity-35 group-hover:opacity-55 transition-opacity duration-300">
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 300">
         <path d="M200 40 L240 65 L240 115 L200 140 L160 115 L160 65 Z" fill="none" stroke="rgba(52,211,153,0.25)" strokeWidth="1" />
         <path d="M200 60 L225 75 L225 105 L200 120 L175 105 L175 75 Z" fill="none" stroke="rgba(52,211,153,0.35)" strokeWidth="1" />
@@ -47,7 +47,7 @@ function HexagonBackground() {
 
 function SpeedLinesBackground() {
   return (
-    <div className="absolute inset-0 overflow-hidden opacity-30 group-hover:opacity-50 transition-opacity duration-500">
+    <div className="absolute inset-0 overflow-hidden opacity-30 group-hover:opacity-50 transition-opacity duration-300">
       {[30, 50, 70, 90, 110].map((top) => (
         <div
           key={top}
@@ -62,7 +62,7 @@ function SpeedLinesBackground() {
 
 function ChainBackground() {
   return (
-    <div className="absolute inset-0 overflow-hidden opacity-35 group-hover:opacity-55 transition-opacity duration-500">
+    <div className="absolute inset-0 overflow-hidden opacity-35 group-hover:opacity-55 transition-opacity duration-300">
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 300">
         {[
           { cx: 140, cy: 80 },
@@ -91,7 +91,7 @@ function ConstellationBackground() {
   const edges = [[0, 1], [1, 2], [0, 3], [1, 4], [2, 5], [3, 4], [3, 6], [4, 6]]
 
   return (
-    <div className="absolute inset-0 overflow-hidden opacity-30 group-hover:opacity-50 transition-opacity duration-500">
+    <div className="absolute inset-0 overflow-hidden opacity-30 group-hover:opacity-50 transition-opacity duration-300">
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200">
         {edges.map(([a, b], i) => (
           <line key={i} x1={nodes[a].x} y1={nodes[a].y} x2={nodes[b].x} y2={nodes[b].y} stroke="rgba(129,140,248,0.25)" strokeWidth="1" />

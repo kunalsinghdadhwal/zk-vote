@@ -78,9 +78,9 @@ export function WhyZK() {
                 </div>
 
                 {/* Card */}
-                <div className="relative rounded-2xl border border-zinc-200/80 bg-white p-8 md:p-10 transition-all duration-300 hover:shadow-xl hover:shadow-zinc-200/40 hover:border-zinc-300/80 overflow-hidden">
+                <div className="relative rounded-2xl border border-zinc-200/80 bg-white p-8 md:p-10 transition-[box-shadow,border-color] duration-200 ease-out hover:shadow-xl hover:shadow-zinc-200/40 hover:border-zinc-300/80 overflow-hidden">
                   {/* Large decorative number */}
-                  <span className={`absolute top-4 right-6 text-[5.5rem] md:text-[7rem] font-serif italic leading-none ${pillar.numColor} select-none pointer-events-none transition-all duration-500 group-hover:scale-[1.03]`}>
+                  <span className={`absolute top-4 right-6 text-[5.5rem] md:text-[7rem] font-serif italic leading-none ${pillar.numColor} select-none pointer-events-none transition-transform duration-300 ease-out group-hover:scale-[1.03]`}>
                     {pillar.num}
                   </span>
 

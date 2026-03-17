@@ -54,8 +54,8 @@ const BentoCard = ({
   >
     <div>{background}</div>
     <div className="p-3.5">
-      <div className="pointer-events-none z-10 flex transform-gpu flex-col gap-0.5 transition-all duration-300 lg:group-hover:-translate-y-10">
-        <Icon className="h-8 w-8 origin-left transform-gpu text-neutral-700 transition-all duration-300 ease-in-out group-hover:scale-75" />
+      <div className="pointer-events-none z-10 flex transform-gpu flex-col gap-0.5 transition-transform duration-200 ease-out lg:group-hover:-translate-y-10">
+        <Icon className="h-8 w-8 origin-left transform-gpu text-neutral-700 transition-transform duration-200 ease-out group-hover:scale-75" />
         <h3 className="text-base font-semibold text-neutral-700 dark:text-neutral-300">
           {name}
         </h3>
@@ -64,7 +64,7 @@ const BentoCard = ({
 
       <div
         className={cn(
-          "pointer-events-none flex w-full translate-y-0 transform-gpu flex-row items-center transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 lg:hidden"
+          "pointer-events-none flex w-full translate-y-0 transform-gpu flex-row items-center transition-[transform,opacity] duration-200 ease-out group-hover:translate-y-0 group-hover:opacity-100 lg:hidden"
         )}
       >
         <a href={href} className="pointer-events-auto inline-flex items-center gap-1.5 text-sm text-foreground underline-offset-4 hover:underline">
@@ -76,7 +76,7 @@ const BentoCard = ({
 
     <div
       className={cn(
-        "pointer-events-none absolute bottom-0 hidden w-full translate-y-10 transform-gpu flex-row items-center p-3.5 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 lg:flex"
+        "pointer-events-none absolute bottom-0 hidden w-full translate-y-10 transform-gpu flex-row items-center p-3.5 opacity-0 transition-[transform,opacity] duration-200 ease-out group-hover:translate-y-0 group-hover:opacity-100 lg:flex"
       )}
     >
       <a href={href} className="pointer-events-auto inline-flex items-center gap-1.5 text-sm text-foreground underline-offset-4 hover:underline">
@@ -85,7 +85,7 @@ const BentoCard = ({
       </a>
     </div>
 
-    <div className="pointer-events-none absolute inset-0 transform-gpu transition-all duration-300 group-hover:bg-black/[.03] group-hover:dark:bg-neutral-800/10" />
+    <div className="pointer-events-none absolute inset-0 transform-gpu transition-[background-color] duration-200 ease-out group-hover:bg-black/[.03] group-hover:dark:bg-neutral-800/10" />
   </div>
 )
 

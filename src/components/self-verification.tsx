@@ -13,7 +13,7 @@ interface SelfVerificationProps {
   onVerified: () => void
 }
 
-const ease = [0.16, 1, 0.3, 1] as const
+const ease = [0.23, 1, 0.32, 1] as const
 
 export function SelfVerification({ sessionId, onVerified }: SelfVerificationProps) {
   const [selfApp, setSelfApp] = useState<ReturnType<SelfAppBuilder['build']> | null>(null)
@@ -83,11 +83,11 @@ export function SelfVerification({ sessionId, onVerified }: SelfVerificationProp
       <AnimatePresence>
         {error && (
           <motion.div
-            initial={{ opacity: 0, y: -8, height: 0 }}
-            animate={{ opacity: 1, y: 0, height: 'auto' }}
-            exit={{ opacity: 0, y: -8, height: 0 }}
-            transition={{ duration: 0.35, ease }}
-            className="mb-6 overflow-hidden"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2, ease }}
+            className="mb-6"
           >
             <Alert variant="error" className="!bg-red-50 !border-red-200 !text-red-700">
               <AlertTitle className="!text-red-700 text-sm">Error</AlertTitle>
@@ -172,7 +172,7 @@ export function SelfVerification({ sessionId, onVerified }: SelfVerificationProp
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.5 }}
+        transition={{ duration: 0.35, delay: 0.3 }}
         className="mt-6 flex items-center justify-center gap-6 text-zinc-400"
       >
         {[
@@ -184,7 +184,7 @@ export function SelfVerification({ sessionId, onVerified }: SelfVerificationProp
             key={item.label}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.55 + i * 0.08, ease }}
+            transition={{ duration: 0.3, delay: 0.35 + i * 0.06, ease }}
             className="flex items-center gap-1.5"
           >
             <item.icon className="size-3 text-zinc-300" />

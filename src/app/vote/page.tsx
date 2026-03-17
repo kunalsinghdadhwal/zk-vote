@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useAccount } from 'wagmi'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { RadioGroup, Radio } from '@/components/ui/radio-group'
@@ -39,7 +39,8 @@ import {
 
 type Phase = 'connect' | 'vote' | 'confirmed'
 
-const ease = [0.16, 1, 0.3, 1] as const
+// Strong ease-out (Emil: custom curves beat built-in)
+const ease = [0.23, 1, 0.32, 1] as const
 
 const stepsMeta = [
   { key: 'connect', label: 'Connect', icon: Wallet },
@@ -48,32 +49,29 @@ const stepsMeta = [
 ] as const
 
 export default function VotePage() {
-  const { isConnected, address } = useAccount()
+  const { isConnected } = useAccount()
   const [phase, setPhase] = useState<Phase>('connect')
   const [selectedProposal, setSelectedProposal] = useState<number | null>(null)
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [txHash, setTxHash] = useState<string | null>(null)
+  const reduced = useReducedMotion()
 
-  // Auto-advance from connect phase when wallet connects
   useEffect(() => {
-    if (isConnected && phase === 'connect') {
-      setPhase('vote')
-    }
-    if (!isConnected && phase !== 'connect') {
-      setPhase('connect')
-    }
+    if (isConnected && phase === 'connect') setPhase('vote')
+    if (!isConnected && phase !== 'connect') setPhase('connect')
   }, [isConnected, phase])
 
   const phaseIndex = stepsMeta.findIndex((s) => s.key === phase)
+  const enterY = reduced ? 0 : 10
 
   return (
     <main className="min-h-dvh bg-stone-50 text-zinc-900">
       {/* Header */}
       <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, ease }}
         className="fixed top-0 left-0 right-0 z-50 bg-stone-50/80 backdrop-blur-lg"
       >
         <div className="max-w-2xl mx-auto px-6 h-14 flex items-center justify-between">
@@ -87,9 +85,9 @@ export default function VotePage() {
           <div className="flex items-center gap-3">
             {isConnected && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, ease }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2, ease }}
                 className="hidden sm:block"
               >
                 <ConnectButton showBalance={false} chainStatus="icon" accountStatus="avatar" />
@@ -97,7 +95,7 @@ export default function VotePage() {
             )}
             <Link
               href="/"
-              className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-700 transition-colors duration-200"
+              className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-700 transition-colors duration-150"
             >
               <ArrowLeft className="size-3.5" />
               Back
@@ -111,9 +109,9 @@ export default function VotePage() {
         <div className="max-w-2xl mx-auto">
           {/* Progress stepper */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, ease }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.05, ease }}
             className="flex items-center justify-center gap-0 mb-12"
           >
             {stepsMeta.map((step, i) => {
@@ -130,7 +128,7 @@ export default function VotePage() {
                           ? 'rgb(52, 211, 153)'
                           : 'rgb(228, 228, 231)',
                       }}
-                      transition={{ duration: 0.6, ease }}
+                      transition={{ duration: 0.3, ease }}
                     />
                   )}
                   <div className="flex flex-col items-center gap-2">
@@ -151,26 +149,26 @@ export default function VotePage() {
                             ? '0 1px 3px rgba(220, 38, 38, 0.25)'
                             : '0 0 0 1px rgb(228, 228, 231)',
                       }}
-                      transition={{ duration: 0.5, ease }}
+                      transition={{ duration: 0.25, ease }}
                     >
                       <AnimatePresence mode="wait">
                         {isComplete ? (
                           <motion.div
                             key="check"
-                            initial={{ scale: 0, rotate: -90 }}
-                            animate={{ scale: 1, rotate: 0 }}
-                            exit={{ scale: 0 }}
-                            transition={{ duration: 0.35, ease }}
+                            initial={{ scale: 0.6, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.6, opacity: 0 }}
+                            transition={{ duration: 0.2, ease }}
                           >
                             <Check className="size-4.5" strokeWidth={2.5} />
                           </motion.div>
                         ) : (
                           <motion.div
                             key={`icon-${step.key}`}
-                            initial={{ scale: 0.8, opacity: 0 }}
+                            initial={{ scale: 0.85, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.8, opacity: 0 }}
-                            transition={{ duration: 0.25 }}
+                            exit={{ scale: 0.85, opacity: 0 }}
+                            transition={{ duration: 0.15 }}
                           >
                             <StepIcon className="size-4.5" />
                           </motion.div>
@@ -186,7 +184,7 @@ export default function VotePage() {
                             ? 'rgb(220, 38, 38)'
                             : 'rgb(161, 161, 170)',
                       }}
-                      transition={{ duration: 0.5, ease }}
+                      transition={{ duration: 0.25, ease }}
                     >
                       {step.label}
                     </motion.span>
@@ -196,22 +194,22 @@ export default function VotePage() {
             })}
           </motion.div>
 
-          {/* Phase content */}
+          {/* Phase content -- asymmetric: enter 350ms, exit 200ms */}
           <AnimatePresence mode="wait">
             {/* ===================== CONNECT PHASE ===================== */}
             {phase === 'connect' && (
               <motion.div
                 key="connect"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: enterY }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20, filter: 'blur(4px)' }}
-                transition={{ duration: 0.4, ease }}
+                exit={{ opacity: 0, filter: reduced ? undefined : 'blur(4px)' }}
+                transition={{ duration: 0.25, ease }}
                 className="max-w-md mx-auto text-center"
               >
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.96 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.1, ease }}
+                  transition={{ duration: 0.35, delay: 0.06, ease }}
                   className="mb-8"
                 >
                   <div className="size-16 rounded-2xl bg-red-100 flex items-center justify-center mx-auto mb-5">
@@ -223,9 +221,9 @@ export default function VotePage() {
                   </p>
                 </motion.div>
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.25, ease }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.25, delay: 0.14, ease }}
                   className="flex justify-center"
                 >
                   <ConnectButton />
@@ -237,17 +235,17 @@ export default function VotePage() {
             {phase === 'vote' && (
               <motion.div
                 key="vote"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: enterY }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20, filter: 'blur(4px)' }}
-                transition={{ duration: 0.4, ease }}
+                exit={{ opacity: 0, filter: reduced ? undefined : 'blur(4px)' }}
+                transition={{ duration: 0.25, ease }}
                 className="max-w-xl mx-auto"
               >
                 {/* Verified confirmation */}
                 <motion.div
-                  initial={{ opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1, ease }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: 0.06, ease }}
                   className="flex items-center gap-3 rounded-xl bg-emerald-50 border border-emerald-200/60 px-4 py-3 mb-10"
                 >
                   <div className="size-8 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
@@ -263,9 +261,9 @@ export default function VotePage() {
 
                 {/* Section heading */}
                 <motion.div
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: enterY }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2, ease }}
+                  transition={{ duration: 0.35, delay: 0.1, ease }}
                   className="mb-6 flex items-center justify-between"
                 >
                   <div>
@@ -277,6 +275,7 @@ export default function VotePage() {
                   <Button
                     variant="outline"
                     size="sm"
+                    className="active:scale-[0.97] transition-transform duration-150"
                     onClick={() => setShowCreateForm(!showCreateForm)}
                   >
                     {showCreateForm ? <X className="size-3.5" /> : <Plus className="size-3.5" />}
@@ -284,14 +283,14 @@ export default function VotePage() {
                   </Button>
                 </motion.div>
 
-                {/* Create Proposal Form */}
+                {/* Create Proposal Form -- CSS transition for height is interruptible */}
                 <AnimatePresence>
                   {showCreateForm && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.35, ease }}
+                      transition={{ duration: 0.2, ease }}
                       className="overflow-hidden mb-8"
                     >
                       <CreateProposalForm
@@ -303,9 +302,9 @@ export default function VotePage() {
 
                 {/* Proposals list */}
                 <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3, ease }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: 0.16, ease }}
                 >
                   <ProposalsList
                     selectedProposal={selectedProposal}
@@ -325,10 +324,10 @@ export default function VotePage() {
             {phase === 'confirmed' && (
               <motion.div
                 key="confirmed"
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.5, ease }}
+                transition={{ duration: 0.25, ease }}
                 className="max-w-md mx-auto text-center"
               >
                 <div className="relative mx-auto size-16 mb-6">
@@ -336,30 +335,30 @@ export default function VotePage() {
                     className="absolute inset-0 rounded-full bg-emerald-200/50"
                     initial={{ scale: 1, opacity: 0.5 }}
                     animate={{ scale: 1.4, opacity: 0 }}
-                    transition={{ duration: 1.2, repeat: Infinity, ease: 'easeOut' }}
+                    transition={{ duration: 1.4, repeat: Infinity, ease: 'easeOut' }}
                   />
                   <motion.div
                     className="relative size-full rounded-full bg-emerald-500 flex items-center justify-center"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.5, ease, delay: 0.1 }}
+                    initial={{ scale: 0.6, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.35, ease, delay: 0.05 }}
                   >
                     <Check className="size-7 text-white" strokeWidth={2.5} />
                   </motion.div>
                 </div>
 
                 <motion.h2
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.15, ease }}
+                  transition={{ duration: 0.3, delay: 0.08, ease }}
                   className="text-2xl font-semibold text-zinc-900 mb-2"
                 >
                   Vote submitted
                 </motion.h2>
                 <motion.p
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.25, ease }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.25, delay: 0.14 }}
                   className="text-sm text-zinc-500 leading-relaxed mb-8 max-w-xs mx-auto text-pretty"
                 >
                   Your encrypted vote has been recorded on-chain. It cannot be altered or traced back
@@ -368,9 +367,9 @@ export default function VotePage() {
 
                 {/* Receipt card */}
                 <motion.div
-                  initial={{ opacity: 0, y: 16 }}
+                  initial={{ opacity: 0, y: enterY }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.35, ease }}
+                  transition={{ duration: 0.35, delay: 0.18, ease }}
                   className="rounded-xl border border-zinc-200 bg-white p-5 mb-6 text-left"
                 >
                   <div className="flex items-center gap-2 mb-4">
@@ -419,15 +418,15 @@ export default function VotePage() {
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.45, ease }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.25, delay: 0.24, ease }}
                   className="flex gap-3"
                 >
                   <Button
                     variant="outline"
                     size="lg"
-                    className="flex-1"
+                    className="flex-1 active:scale-[0.97] transition-transform duration-150"
                     onClick={() => {
                       setSelectedProposal(null)
                       setSelectedOption(null)
@@ -438,7 +437,7 @@ export default function VotePage() {
                     Vote again
                   </Button>
                   <Link href="/" className="flex-1">
-                    <Button variant="outline" size="lg" className="w-full">
+                    <Button variant="outline" size="lg" className="w-full active:scale-[0.97] transition-transform duration-150">
                       <ArrowLeft className="size-3.5" />
                       Home
                     </Button>
@@ -476,7 +475,7 @@ function ProposalsList({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.2 }}
         className="flex items-center justify-center py-12 gap-3"
       >
         <Loader2 className="size-5 text-red-500 animate-spin" />
@@ -488,9 +487,9 @@ function ProposalsList({
   if (proposalCount === 0) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.25, ease }}
         className="text-center py-12 border border-dashed border-zinc-200 rounded-xl"
       >
         <CircleDot className="size-8 text-zinc-300 mx-auto mb-3" />
@@ -504,9 +503,9 @@ function ProposalsList({
       {Array.from({ length: proposalCount }, (_, i) => (
         <motion.div
           key={i}
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: i * 0.06, ease }}
+          transition={{ duration: 0.3, delay: i * 0.05, ease }}
         >
           <ProposalCard
             proposalId={BigInt(i)}
@@ -588,10 +587,8 @@ function ProposalCard({
   }
 
   return (
-    <motion.div
-      layout
-      transition={{ duration: 0.3, ease }}
-      className={`rounded-xl border transition-colors duration-200 ${
+    <div
+      className={`rounded-xl border transition-[border-color,background-color,box-shadow] duration-200 ease-out ${
         isExpanded
           ? 'border-red-300 bg-red-50/30 shadow-sm'
           : 'border-zinc-200 bg-white hover:border-zinc-300'
@@ -600,7 +597,7 @@ function ProposalCard({
       {/* Header -- always shown */}
       <button
         onClick={onToggle}
-        className="w-full px-5 py-4 text-left flex items-start justify-between gap-3"
+        className="w-full px-5 py-4 text-left flex items-start justify-between gap-3 active:scale-[0.995] transition-transform duration-100"
       >
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2.5 mb-1">
@@ -624,14 +621,14 @@ function ProposalCard({
         </div>
       </button>
 
-      {/* Expanded content */}
+      {/* Expanded content -- CSS transition for interruptibility */}
       <AnimatePresence>
         {isExpanded && options && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease }}
+            transition={{ duration: 0.2, ease }}
             className="overflow-hidden"
           >
             <div className="px-5 pb-5">
@@ -648,13 +645,13 @@ function ProposalCard({
                     {options.map((opt, i) => (
                       <motion.label
                         key={i}
-                        initial={{ opacity: 0, x: -8 }}
+                        initial={{ opacity: 0, x: -6 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3, delay: i * 0.05, ease }}
+                        transition={{ duration: 0.2, delay: i * 0.04, ease }}
                         className="cursor-pointer block"
                       >
                         <div
-                          className={`relative rounded-lg border px-4 py-3 transition-all duration-150 ${
+                          className={`relative rounded-lg border px-4 py-3 transition-[border-color,background-color] duration-150 ease-out ${
                             selectedOption === String(i)
                               ? 'border-red-400 bg-red-50/60'
                               : 'border-zinc-200 bg-white hover:border-zinc-300'
@@ -669,18 +666,13 @@ function ProposalCard({
                     ))}
                   </RadioGroup>
 
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.15 }}
-                    className="mt-4"
-                  >
+                  <div className="mt-4">
                     <Button
                       onClick={handleCastVote}
                       disabled={selectedOption === null || isPending || isEncrypting}
                       variant="default"
                       size="default"
-                      className="w-full"
+                      className="w-full active:scale-[0.97] transition-transform duration-150"
                     >
                       {isEncrypting ? (
                         <>
@@ -703,18 +695,13 @@ function ProposalCard({
                     <p className="text-center text-xs text-zinc-400 mt-2">
                       Your choice is FHE-encrypted and cannot be traced back to you.
                     </p>
-                  </motion.div>
+                  </div>
                 </>
               )}
 
               {/* Already voted state */}
               {voted && !isEnded && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex items-center gap-3 py-3"
-                >
+                <div className="flex items-center gap-3 py-3">
                   <div className="size-8 rounded-full bg-emerald-100 flex items-center justify-center">
                     <Check className="size-4 text-emerald-600" strokeWidth={2.5} />
                   </div>
@@ -724,7 +711,7 @@ function ProposalCard({
                       Waiting for deadline to pass before tallying
                     </p>
                   </div>
-                </motion.div>
+                </div>
               )}
 
               {/* Tally & Reveal for ended proposals */}
@@ -736,7 +723,7 @@ function ProposalCard({
                       disabled={isTallying}
                       variant="outline"
                       size="default"
-                      className="w-full"
+                      className="w-full active:scale-[0.97] transition-transform duration-150"
                     >
                       {isTallying ? (
                         <>
@@ -758,7 +745,7 @@ function ProposalCard({
                       disabled={isRevealing}
                       variant="outline"
                       size="default"
-                      className="w-full"
+                      className="w-full active:scale-[0.97] transition-transform duration-150"
                     >
                       {isRevealing ? (
                         <>
@@ -775,12 +762,7 @@ function ProposalCard({
                   )}
 
                   {results && options && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.4 }}
-                      className="space-y-2"
-                    >
+                    <div className="space-y-2">
                       <p className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-3">
                         Results
                       </p>
@@ -801,13 +783,13 @@ function ProposalCard({
                                 className="h-full rounded-full bg-red-500"
                                 initial={{ width: 0 }}
                                 animate={{ width: `${pct}%` }}
-                                transition={{ duration: 0.8, delay: i * 0.1, ease }}
+                                transition={{ duration: 0.6, delay: i * 0.06, ease: [0.77, 0, 0.175, 1] }}
                               />
                             </div>
                           </div>
                         )
                       })}
-                    </motion.div>
+                    </div>
                   )}
                 </div>
               )}
@@ -815,7 +797,7 @@ function ProposalCard({
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   )
 }
 
@@ -880,10 +862,8 @@ function CreateProposalForm({ onCreated }: { onCreated: () => void }) {
         <Label className="mb-1.5 text-sm">Options</Label>
         <div className="space-y-2">
           {options.map((opt, i) => (
-            <motion.div
+            <div
               key={i}
-              layout
-              transition={{ duration: 0.2, ease }}
               className="flex items-center gap-2"
             >
               <Input
@@ -900,7 +880,7 @@ function CreateProposalForm({ onCreated }: { onCreated: () => void }) {
                   <X className="size-3" />
                 </Button>
               )}
-            </motion.div>
+            </div>
           ))}
           {options.length < 10 && (
             <Button variant="ghost" size="xs" onClick={addOption}>
@@ -923,7 +903,7 @@ function CreateProposalForm({ onCreated }: { onCreated: () => void }) {
         onClick={handleSubmit}
         disabled={!isValid || isPending}
         variant="default"
-        className="w-full"
+        className="w-full active:scale-[0.97] transition-transform duration-150"
       >
         {isPending ? (
           <>
